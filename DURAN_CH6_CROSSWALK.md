@@ -92,7 +92,7 @@ they are there:
 
 | Assessment | Notebook | Chapter theme assessed |
 |---|---|---|
-| Complete the in-notebook exercises | All | Applied competence |
+| Run the notebooks, study the worked exercises, and pass the Canvas comprehension quizzes | All | Applied competence |
 | Write a one-page data-quality memo on `sp500_prices.csv` | NB 01 | Data quality and governance |
 | Reproduce the risk table for a different five-year window and explain what changed | NB 02 | Descriptive analytics, model stability |
 | Identify three leakage risks in a supplied "student" notebook | NB 03 | Model risk and validation |

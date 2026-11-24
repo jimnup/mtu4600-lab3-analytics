@@ -16,6 +16,10 @@ outputs/
 *.xlsx
 !data/*.xlsx
 
+# Comprehension quizzes and answer keys: instructor-only, never push to the
+# student-facing repository. Remove this line in a private instructor repo.
+quizzes/
+
 # OS / editor noise
 .DS_Store
 Thumbs.db

@@ -130,7 +130,7 @@ your code. Add that free market-data APIs break without notice, and that
 late.
 
 **"Couldn't we do better with a neural network?"**
-On 1,440 monthly observations and twelve features, no. Deep learning needs data
+On 1,410 monthly observations and twelve features, no. Deep learning needs data
 volume this problem does not have, and notebook 04 already shows gradient
 boosting failing to meaningfully beat logistic regression on 1,000 rows. The
 useful follow-up question is what data *would* change the answer — and that
@@ -158,32 +158,58 @@ reasons. A coefficient is a reason; a forest is not.
 
 ---
 
-## Grading suggestions
+## Assessment: run, read, then quiz
 
-The exercises are deliberately open enough to reward thought.
+The lab is now **run-and-read**. Every line of Python is commented, the
+markdown before each code cell gives the background on the packages and
+methods (with the machine-learning algorithms covered in depth in notebook 04),
+and every exercise has a worked, commented solution followed by a
+**Discussion** cell that interprets the actual output. Students run each
+notebook, read it, experiment if they like, and then take that notebook's
+**comprehension quiz in Canvas**.
 
-| Notebook | Exercise | What to look for |
+The quizzes live in `quizzes/`, which is git-ignored so the answer keys never
+reach the public student repository. See `quizzes/README.md` for how to edit
+them, rebuild the Canvas QTI packages (`uv run python scripts/build_quizzes.py`)
+and import them.
+
+| Notebook | Quiz questions | Multiple choice | True/false |
+|---|---|---|---|
+| 00 | 8 | 5 | 3 |
+| 01 | 24 | 17 | 7 |
+| 02 | 24 | 17 | 7 |
+| 03 | 23 | 16 | 7 |
+| 04 | 24 | 16 | 8 |
+| 05 | 23 | 16 | 7 |
+
+The questions mix three kinds: what specific lines of code do, how the
+methods work, and what the results mean for a finance professional. Numbers
+quoted in questions come from executing the notebooks with the committed data
+and `uv.lock` versions. If you change the data or upgrade packages, re-run
+`scripts/run_all_notebooks.py` and spot-check the quizzes.
+
+### What the worked solutions show
+
+Useful for leading discussion, or if you want students to explain a solution
+in their own words as a short written follow-up.
+
+| Notebook | Exercise | Result in the worked solution |
 |---|---|---|
-| 01 | Ex 1 — XOM 2015 filter | Correct use of `.dt.year` and a boolean mask, not a loop |
-| 01 | Ex 2 — highest average range | Correct `groupby`; a sentence of economic interpretation |
-| 01 | Ex 3 — trading days per ticker | Recognising that unequal counts imply listing or halt history |
-| 02 | Ex 1 — recompute for 2015 | Noticing that the Sharpe ranking is unstable; that is the point |
-| 02 | Ex 2 — Calmar ratio | Correct drawdown application; understanding why it re-ranks names |
-| 02 | Ex 3 — defensive sector betas | Awareness that 2013–2018 rate moves complicate the utilities story |
+| 01 | Ex 1 — XOM 2015 filter | 24 days above 20m shares; uses `.dt.year` and a boolean mask, not a loop |
+| 01 | Ex 2 — highest average range | BAC, GS, CAT; calmest KO, PG, MCD |
+| 01 | Ex 3 — trading days per ticker | All 30 have 1,259 days, which is itself a sign of survivorship bias |
+| 02 | Ex 1 — recompute for 2015 | Only 13 of 30 positive Sharpe ratios; rank correlation with the five-year ranking 0.43. The ranking is unstable, which is the point |
+| 02 | Ex 2 — Calmar ratio | Computed on a copy so the saved `risk_return_stats.csv` is untouched; UNH moves to first, BAC falls six places |
+| 02 | Ex 3 — defensive sector betas | Utilities ≈0.58, Staples ≈0.71, Financials ≈1.37; discussion covers bond-proxy behaviour in 2013–2018 |
 | 03 | Ex 1 — leakage triage | **The most diagnostic exercise in the lab.** Item 2 (`close.mean()` over the whole sample) is the leak; items 1 and 3 are fine |
-| 03 | Ex 2 — invent a feature | Did they state the leakage risk *before* computing? Credit the discipline, not the correlation |
-| 04 | Ex 1 — add back the protected variable | Accept either conclusion if argued; reject "it improved AUC so we should use it" with no legal reasoning |
-| 04 | Ex 2 — LGD 0.35 | Threshold rises to ≈0.42; they should predict the direction from the formula first |
-| 04 | Ex 3 — depth-3 scorecard | Rules stated in plain English; the AUC sacrifice quantified |
-| 04 | Ex 4 — fixed origination cost | Recognising that the loan amount stops cancelling, so small loans get declined |
-| 05 | Ex 1 — `min_samples_leaf=1` | Train accuracy →1.0, test unchanged or worse; names it overfitting |
-| 05 | Ex 2 — volatility importances | Own trailing volatility dominates; VIX adds less than students expect |
-| 05 | Ex 3 — third target | **Weight this heavily.** Did they name the baseline before fitting? |
-
-A rubric that works well: **40% correctness, 30% interpretation, 30% honesty**
-— where honesty means stated baselines, acknowledged limitations, and no
-overclaiming. Students calibrate to what you grade, and the third column is the
-one that makes them employable.
+| 03 | Ex 2 — invent a feature | Volatility term spread and a January dummy; the January "signal" is shown to come from two bad months |
+| 04 | Ex 1 — add back the protected variable | Test AUC 0.800 → 0.799, so it barely helps; the discussion explains why ECOA prohibits it regardless |
+| 04 | Ex 2 — LGD 0.35 | Formula cut-off rises from 0.294 to ≈0.417; approvals 142 → 174 |
+| 04 | Ex 3 — depth-3 scorecard | Rules in plain English; AUC cost ≈0.11 on test, ≈0.08 cross-validated |
+| 04 | Ex 4 — fixed origination cost | Amount-dependent rule declines 33 small loans and adds ≈1,329 DM; break-even loan size 600 DM |
+| 05 | Ex 1 — `min_samples_leaf=1` | Train accuracy 1.00, test ≈0.50 (≈0.51 at the default leaf size): overfitting with no signal to lose |
+| 05 | Ex 2 — volatility importances | Own 63-day volatility leads; the VIX features matter in a full-data fit but much less on a held-out fold |
+| 05 | Ex 3 — third target | Absolute next-month return; baselines named **before** fitting; the forest beats the best baseline in 4 of 5 folds by under 2% in MAE, with negative R². Honest reporting is the point |
 
 ---
 

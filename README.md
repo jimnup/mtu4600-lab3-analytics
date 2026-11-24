@@ -47,7 +47,18 @@ Work through them in order. Each builds on the one before.
 | 04 | **Credit risk ML** | A full credit-scoring workflow ending in a profit-based approval rule | 90 min |
 | 05 | **Market prediction ML** | Apply the same models to markets, and learn to read a null result | 60 min |
 
-Every notebook ends with exercises. They are the part that teaches.
+All of the code is provided. Your job is to **run every cell, read the
+explanations, and make sure you understand what each line does and why**:
+
+- Every line of Python carries a comment saying what it does.
+- The text cell before each code cell gives the background: the packages
+  being used, and how the statistical or machine-learning method works.
+- Each notebook ends with exercises that have **worked solutions** and a short
+  discussion of what the results mean.
+
+After each notebook, take its **comprehension quiz in Canvas**. The questions
+check that you understood the code, the methods and the finance, so it pays to
+change a number in a cell and re-run it to see what happens.
 
 ---
 
@@ -101,7 +112,8 @@ mtu4600-lab3-analytics/
 └── scripts/
     ├── check_environment.py    Terminal version of notebook 00
     ├── refresh_data.py         Optional live data download
-    └── run_all_notebooks.py    Execute everything (instructor/CI)
+    ├── run_all_notebooks.py    Execute everything (instructor/CI)
+    └── build_quizzes.py        Canvas quiz packages (instructor)
 ```
 
 ---
